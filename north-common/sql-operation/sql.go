@@ -9,7 +9,7 @@ import (
 
 const (
 	USERNAME = "root"
-	PASSWORD = "anchor484NB"
+	PASSWORD = "-"
 	//HOST = "39.106.3.240"
 	HOST = "127.0.0.1"
 	PORT = 3306
