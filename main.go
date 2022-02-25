@@ -10,6 +10,7 @@ import (
 
 func main() {
 	route := gin.Default()
+	route.SetTrustedProxies([]string{"127.0.0.1"})
 	route.Handle("POST", "/login", func(ctx *gin.Context) {
 	//route.Handle("GET", "/login", func(ctx *gin.Context) {
 	//	request := ctx.Request
