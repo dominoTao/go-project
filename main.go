@@ -33,11 +33,7 @@ func main() {
 			response.Data = "登录失败"
 		}
 
-		//test
-		//test
-
-		//test
-		//test
+		
 		ctx.JSON(http.StatusOK, response)
 	})
 	route.Run("localhost:8080")
