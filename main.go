@@ -8,6 +8,8 @@ import (
 func main() {
 	r := routers.SetupRouters()
 
+	//test
+	
 	if err := r.Run("localhost:8080"); err != nil {
 		fmt.Errorf("failed start routers")
 		return
