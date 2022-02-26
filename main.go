@@ -12,8 +12,8 @@ func main() {
 	route := gin.Default()
 	route.SetTrustedProxies([]string{"127.0.0.1"})
 	route.Handle("POST", "/login", func(ctx *gin.Context) {
-	//route.Handle("GET", "/login", func(ctx *gin.Context) {
-	//	request := ctx.Request
+		//route.Handle("GET", "/login", func(ctx *gin.Context) {
+		//	request := ctx.Request
 		//var bb []byte
 		//_, _ = request.Body.Read(bb)
 		db, err := option.InitDB()
@@ -33,9 +33,9 @@ func main() {
 			response.Data = "登录失败"
 		}
 
+		//test
 
 		ctx.JSON(http.StatusOK, response)
 	})
 	route.Run("localhost:8080")
 }
-
