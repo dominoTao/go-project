@@ -1,5 +1,13 @@
 package view
 
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"net/http"
+	"north-project/north-common/baseview"
+	option "north-project/north-common/sql-operation"
+)
+
 /**
 用户表对应结构体
  */
@@ -26,4 +34,27 @@ type UserLogin struct {
 	Id int
 	Name string
 	Pass string
+}
+
+
+func HandlerLogin(ctx *gin.Context) {
+	db, err := option.InitDB()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	flag := option.SelectUserByName(db, "张三", "123ewq")
+
+	response := baseview.BaseResponse{}
+	response.Message = "Successful"
+	response.Code = 1
+	//response.Data = users
+	//users := option.SelectUsers(db)
+	if flag {
+		response.Data = "登录成功"
+	} else {
+		response.Data = "登录失败"
+	}
+	ctx.JSON(http.StatusOK, response)
 }

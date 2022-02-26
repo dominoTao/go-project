@@ -36,7 +36,33 @@ func InitDB() (*sql.DB, error) {
 	fmt.Println("connect database success")
 	return DB, nil
 }
-
+// param 1 : 要绑定的对象
+// param 2 : 字符串数组， 数组第一个元素是sql语句， 后边的是预处理占位参数
+func InsertBack(pe view.UserLogin, params []string) bool {
+	// 开启事务
+	tx, err := DB.Begin()
+	if err != nil {
+		fmt.Println("tx fail")
+		return false
+	}
+	// 准备sql语句
+	stmt, err := tx.Prepare(params[0])
+	if err != nil {
+		fmt.Println("Prepare fail")
+		return false
+	}
+	// 将参数传递到sql语句中并且执行
+	res, err := stmt.Exec(pe.Name, pe.Pass)
+	if err != nil {
+		fmt.Println("Exec fail")
+		return false
+	}
+	// 提交事务
+	tx.Commit()
+	// 获得上一个插入自增的id
+	fmt.Println(res.LastInsertId())
+	return true
+}
 func InsertUser(DB *sql.DB, pe view.UserLogin) bool {
 	// 开启事务
 	tx, err := DB.Begin()
@@ -45,7 +71,7 @@ func InsertUser(DB *sql.DB, pe view.UserLogin) bool {
 		return false
 	}
 	// 准备sql语句
-	stmt, err := tx.Prepare("INSERT INTO user (`name`, `pass`) VALUES (?, ?, ?)")
+	stmt, err := tx.Prepare("INSERT INTO user (`name`, `pass`) VALUES (?, ?)")
 	if err != nil {
 		fmt.Println("Prepare fail")
 		return false
