@@ -9,9 +9,10 @@ import (
 
 const (
 	USERNAME = "root"
-	PASSWORD = "-"
+	//PASSWORD = "liuyaozong123"
 	//HOST = "39.106.3.240"
 	HOST = "127.0.0.1"
+	PASSWORD = "anchor484NB"
 	PORT = 3306
 	DATABASE = "project"
 	//数据库连接的超时时间。
@@ -32,7 +33,7 @@ func InitDB() (*sql.DB, error) {
 	if err:= DB.Ping();err!=nil {
 		return nil, fmt.Errorf("open database fail")
 	}
-	fmt.Println("connect success")
+	fmt.Println("connect database success")
 	return DB, nil
 }
 
