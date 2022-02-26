@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"north-project/north-user-baseinfo/pkg/view"
+	"north-project/north-user-baseinfo"
 )
 
 const (
@@ -38,7 +38,7 @@ func InitDB() (*sql.DB, error) {
 }
 // param 1 : 要绑定的对象
 // param 2 : 字符串数组， 数组第一个元素是sql语句， 后边的是预处理占位参数
-func InsertBack(pe view.UserLogin, params []string) bool {
+func InsertBack(pe north_user_baseinfo.UserLogin, params []string) bool {
 	// 开启事务
 	tx, err := DB.Begin()
 	if err != nil {
@@ -63,7 +63,7 @@ func InsertBack(pe view.UserLogin, params []string) bool {
 	fmt.Println(res.LastInsertId())
 	return true
 }
-func InsertUser(DB *sql.DB, pe view.UserLogin) bool {
+func InsertUser(DB *sql.DB, pe north_user_baseinfo.UserLogin) bool {
 	// 开启事务
 	tx, err := DB.Begin()
 	if err != nil {
@@ -89,7 +89,7 @@ func InsertUser(DB *sql.DB, pe view.UserLogin) bool {
 	return true
 }
 
-func DeleteUser(DB *sql.DB, pe view.UserLogin) bool {
+func DeleteUser(DB *sql.DB, pe north_user_baseinfo.UserLogin) bool {
 	// 开启事务
 	tx, err := DB.Begin()
 	if err != nil {
@@ -115,7 +115,7 @@ func DeleteUser(DB *sql.DB, pe view.UserLogin) bool {
 	return true
 }
 
-func UpdateUser(DB *sql.DB, pe view.UserLogin) bool {
+func UpdateUser(DB *sql.DB, pe north_user_baseinfo.UserLogin) bool {
 	// 开启事务
 	tx, err := DB.Begin()
 	if err != nil {
@@ -141,8 +141,8 @@ func UpdateUser(DB *sql.DB, pe view.UserLogin) bool {
 	return true
 }
 
-func SelectUserById(DB *sql.DB, id int) view.UserLogin {
-	var pe view.UserLogin
+func SelectUserById(DB *sql.DB, id int) north_user_baseinfo.UserLogin {
+	var pe north_user_baseinfo.UserLogin
 	err := DB.QueryRow("SELECT * FROM user WHERE id = ?", id).Scan(&pe.Id, &pe.Name, &pe.Pass)
 	if err != nil {
 		fmt.Println("查询出错了")
@@ -159,8 +159,8 @@ func SelectUserByName(DB *sql.DB, name, pass string) bool {
 	return len(nameS) > 0
 }
 
-func SelectUsers(DB *sql.DB) []view.UserLogin {
-	pes := make([]view.UserLogin, 0)
+func SelectUsers(DB *sql.DB) []north_user_baseinfo.UserLogin {
+	pes := make([]north_user_baseinfo.UserLogin, 0)
 	query, err := DB.Query("SELECT id,name,pass FROM user")
 	if err != nil {
 		fmt.Println("查询出错了")
@@ -174,7 +174,7 @@ func SelectUsers(DB *sql.DB) []view.UserLogin {
 			fmt.Println("查询失败")
 			return pes
 		}
-		pes = append(pes, view.UserLogin{
+		pes = append(pes, north_user_baseinfo.UserLogin{
 			Id: id,
 			Name: name,
 			Pass: pass,

@@ -1,4 +1,4 @@
-package view
+package north_user_baseinfo
 
 import (
 	"fmt"
