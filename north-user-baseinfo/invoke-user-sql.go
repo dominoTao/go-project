@@ -12,7 +12,7 @@ func HandlerLogin(ctx *gin.Context) {
 	var view *baseview.BaseResponse
 
 	username := ctx.PostForm("username")
-	password := ctx.PostForm("passwword")
+	password := ctx.PostForm("password")
 	//用户信息
 	userinfo, err := SelectUserByUserName(option.DB, username)
 	if err != nil || userinfo == nil {
@@ -24,7 +24,7 @@ func HandlerLogin(ctx *gin.Context) {
 	// 密码加密
 	encodePassword := session.MD5Encode(password+convObj2String(getSess), nil)
 	// 比较信息是否匹配
-	encodeUserPass := session.MD5Encode(userinfo.UserPass, nil)
+	encodeUserPass := session.MD5Encode(userinfo.UserPass+convObj2String(getSess), nil)
 	if encodePassword == encodeUserPass {
 		view = baseview.GetView(userinfo, "")
 	}else {
