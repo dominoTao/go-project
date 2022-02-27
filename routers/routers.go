@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"north-project/north-user-baseinfo"
+	north_user_baseinfo "north-project/north-user-baseinfo"
 )
 
 var r *gin.Engine
@@ -15,4 +15,3 @@ func SetupRouters() *gin.Engine {
 	r.Handle("POST", "/login", north_user_baseinfo.HandlerLogin)
 	return r
 }
-

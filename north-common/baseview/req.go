@@ -1,21 +1,24 @@
 package baseview
 
+import "fmt"
+
 type BaseResponse struct {
-	Data interface{} `json:"data,omitempty"`
-	Code int `json:"code"`
-	Message string `json:"message"`
+	Data    interface{} `json:"data,omitempty"`
+	Code    int         `json:"code"`
+	Message string      `json:"message"`
 }
 
-func getView(s interface{}, msg string) (code, message string, sv interface{}) {
+func GetView(s interface{}, msg string) *BaseResponse {
+	resp := &BaseResponse{}
 	if s != nil {
-		sv = s
-		code = "1"
-		message = "Successful"
-	}else {
-		sv = nil
-		code = "0"
-		message = msg
+		resp.Code = 1
+		resp.Message = "Successful"
+		fmt.Println(s)
+		resp.Data = s
+	} else {
+		resp.Code = 0
+		resp.Message = msg
+		resp.Data = nil
 	}
-	return
+	return resp
 }
-
