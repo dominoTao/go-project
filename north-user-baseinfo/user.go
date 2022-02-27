@@ -39,7 +39,8 @@ func SelectUserById(DB *sql.DB, id int) User {
 
 func SelectUserByUserName(DB *sql.DB, username string) (*User, error) {
 	var pe User
-	err := DB.QueryRow("SELECT id,user_login,user_pass FROM user WHERE user_login =  ? ", username).Scan(&pe.Id, &pe.UserLogin, &pe.UserPass)
+	err := DB.QueryRow("SELECT id,user_login,user_pass FROM user WHERE user_login =  ?", username).Scan(&pe.Id, &pe.UserLogin, &pe.UserPass)
+	//DB.Query("SELECT id,user_login,user_pass FROM user WHERE user_login =  ?")
 	if err != nil {
 		return nil, fmt.Errorf(err.Error())
 	}

@@ -1,24 +1,43 @@
 package north_user_baseinfo
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"north-project/north-common/baseview"
-	sql_operation "north-project/north-common/sql-operation"
+	"north-project/north-common/session"
+	option "north-project/north-common/sql-operation"
 )
 
 func HandlerLogin(ctx *gin.Context) {
-	username := ctx.PostForm("username")
-	//password := ctx.PostForm("passwword")
-	fmt.Println("入参 username ：", username)
-	//用户信息
-	userinfo, err := SelectUserByUserName(sql_operation.DB, username)
 	var view *baseview.BaseResponse
-	if err != nil {
-		view = baseview.GetView(nil, err.Error())
-	} else {
+
+	username := ctx.PostForm("username")
+	password := ctx.PostForm("passwword")
+	//用户信息
+	userinfo, err := SelectUserByUserName(option.DB, username)
+	if err != nil || userinfo == nil {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
+		return
+	}
+	// 存入session
+	getSess := session.GetSession(ctx.Writer, ctx.Request)
+	// 密码加密
+	encodePassword := session.MD5Encode(password+convObj2String(getSess), nil)
+	// 比较信息是否匹配
+	encodeUserPass := session.MD5Encode(userinfo.UserPass, nil)
+	if encodePassword == encodeUserPass {
 		view = baseview.GetView(userinfo, "")
+	}else {
+		view = baseview.GetView(nil, "用户名或密码错误")
 	}
 	ctx.JSON(http.StatusOK, view)
+}
+
+func convObj2String(input interface{}) string {
+	if input != nil {
+		if s, ok := input.(string); ok{
+			return s
+		}
+	}
+	return ""
 }
