@@ -1,41 +1,38 @@
 package session
 
 import (
+	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"github.com/gorilla/sessions"
-	"io/ioutil"
-	"net/http"
-	"crypto/md5"
 )
 
-var store = sessions.NewCookieStore([]byte("something-very-secret"))
+//var store = sessions.NewCookieStore([]byte("something-very-secret"))
 
-func SaveSession(w http.ResponseWriter, r *http.Request) {
-	session, err := store.Get(r, "session-name")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	// 读取request中的数据
-	s, _ := ioutil.ReadAll(r.Body) //把	body 内容读入字符串 s
-	session.Values["token"] = MD5Encode(string(s), nil)
-	session.Save(r, w)
-}
-
-func GetSession(w http.ResponseWriter, r *http.Request) interface{} {
-	session, err := store.Get(r, "session-name")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return ""
-	}
-	s, _ := ioutil.ReadAll(r.Body)
-	if session.Values[string(s)] == nil {
-		SaveSession(w, r)
-	}
-	return session.Values[string(s)]
-
-}
+//func SaveSession(w http.ResponseWriter, r *http.Request) {
+//	session, err := store.Get(r, "session-name")
+//	if err != nil {
+//		http.Error(w, err.Error(), http.StatusInternalServerError)
+//		return
+//	}
+//	// 读取request中的数据
+//	s, _ := ioutil.ReadAll(r.Body) //把	body 内容读入字符串 s
+//	session.Values["token"] = MD5Encode(string(s), nil)
+//	session.Save(r, w)
+//}
+//
+//func GetSession(w http.ResponseWriter, r *http.Request) interface{} {
+//	session, err := store.Get(r, "session-name")
+//	if err != nil {
+//		http.Error(w, err.Error(), http.StatusInternalServerError)
+//		return ""
+//	}
+//	s, _ := ioutil.ReadAll(r.Body)
+//	if session.Values[string(s)] == nil {
+//		SaveSession(w, r)
+//	}
+//	return session.Values[string(s)]
+//
+//}
 
 func MD5Encode(input string, sum []byte) string {
 	if len(input) <= 0 {

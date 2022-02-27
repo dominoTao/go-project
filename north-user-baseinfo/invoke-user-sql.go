@@ -10,23 +10,25 @@ import (
 
 func HandlerLogin(ctx *gin.Context) {
 	var view *baseview.BaseResponse
+	m := make(map[string]interface{})
+	ctx.BindJSON(&m)
 
-	username := ctx.PostForm("username")
-	password := ctx.PostForm("password")
 	//用户信息
-	userinfo, err := SelectUserByUserName(option.DB, username)
+	userinfo, err := SelectUserByUserName(option.DB, m["username"].(string))
 	if err != nil || userinfo == nil {
 		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
 		return
 	}
 	// 存入session
-	getSess := session.GetSession(ctx.Writer, ctx.Request)
+	//session.SaveSession(ctx.Writer, ctx.Request)
+
 	// 密码加密
-	encodePassword := session.MD5Encode(password+convObj2String(getSess), nil)
+	encodePassword := session.MD5Encode(m["password"].(string), nil)
 	// 比较信息是否匹配
-	encodeUserPass := session.MD5Encode(userinfo.UserPass+convObj2String(getSess), nil)
-	if encodePassword == encodeUserPass {
-		view = baseview.GetView(userinfo, "")
+	m2 := make(map[string]string)
+	m2["token"] = session.MD5Encode(m["username"].(string), nil)
+	if encodePassword == userinfo.UserPass {
+		view = baseview.GetView(m2, "")
 	}else {
 		view = baseview.GetView(nil, "用户名或密码错误")
 	}
