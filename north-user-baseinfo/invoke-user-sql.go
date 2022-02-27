@@ -1,13 +1,16 @@
 package north_user_baseinfo
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"north-project/north-common/baseview"
+	"north-project/north-common/cache"
+	"north-project/north-common/encode"
 	"north-project/north-common/log"
-	"north-project/north-common/session"
 	option "north-project/north-common/sql-operation"
+	"time"
 )
 
 func HandlerLogin(ctx *gin.Context) {
@@ -24,16 +27,22 @@ func HandlerLogin(ctx *gin.Context) {
 		}).Info("用户数据为空")
 		return
 	}
-	// TODO 存入session
-	//session.SaveSession(ctx.Writer, ctx.Request)
-	// 密码加密
-	//TODO 抽象出断言方法
-	encodePassword := session.MD5Encode(m["password"].(string), nil)
-	// 比较信息是否匹配
-	m2 := make(map[string]string)
-	m2["token"] = session.MD5Encode(m["username"].(string), nil)
 
+	// 判断token是否失效
+	m2 := make(map[string]string)
+	m2["token"] = encode.MD5Encode(m["username"].(string), nil)
+
+	// 缓存redis
+	redisKey := fmt.Sprintf("LOGGING_STATUES_%v", userinfo.Id)
+	if cache.Client.Exists(ctx, redisKey).Val() != 1 {
+		cache.Client.Set(ctx, redisKey, m2["token"], time.Minute * 30)
+	}
+
+	//TODO 抽象出断言方法
+	// 密码加密
+	encodePassword := encode.MD5Encode(m["password"].(string), nil)
 	var view *baseview.BaseResponse
+	// 比较信息是否匹配
 	if encodePassword == userinfo.UserPass {
 		view = baseview.GetView(m2, "")
 	}else {
