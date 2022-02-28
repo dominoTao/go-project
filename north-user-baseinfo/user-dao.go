@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func SelectUserById(DB *sql.DB, id int) User {
+func selectUserById(DB *sql.DB, id int) User {
 	var pe User
 	err := DB.QueryRow("SELECT id,user_login,user_pass FROM user WHERE id = ?", id).Scan(&pe.Id, &pe.UserLogin, &pe.UserPass)
 	if err != nil {
@@ -15,7 +15,7 @@ func SelectUserById(DB *sql.DB, id int) User {
 	return pe
 }
 
-func SelectUserByUserName(DB *sql.DB, username string) (*User, error) {
+func selectUserByUserName(DB *sql.DB, username string) (*User, error) {
 	var pe User
 	err := DB.QueryRow("SELECT id,user_login,user_pass FROM user WHERE user_login =  ?", username).Scan(&pe.Id, &pe.UserLogin, &pe.UserPass)
 	//DB.Query("SELECT id,user_login,user_pass FROM user WHERE user_login =  ?")

@@ -12,7 +12,7 @@ import (
 //获取角色
 func HandlerRoles(ctx *gin.Context) {
 	//所有角色
-	roleList, err := SelectAllRole(option.DB)
+	roleList, err := selectAllRole(option.DB)
 	if err != nil || roleList == nil {
 		ctx.JSON(http.StatusOK, baseview.GetView(nil, "角色数据为空"))
 		// 记录日志

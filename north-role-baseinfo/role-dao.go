@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func SelectRoleById(DB *sql.DB, id int) (*Role, error) {
+func selectRoleById(DB *sql.DB, id int) (*Role, error) {
 	var pe Role
 	err := DB.QueryRow("SELECT id,status,list_order,name FROM role WHERE id = ?", id).Scan(&pe.Id, &pe.Status, &pe.ListOrder, &pe.Name)
 	if err != nil {
@@ -17,7 +17,7 @@ func SelectRoleById(DB *sql.DB, id int) (*Role, error) {
 	return &pe, nil
 }
 
-func SelectAllRole(DB *sql.DB) (*[]Role, error) {
+func selectAllRole(DB *sql.DB) (*[]Role, error) {
 	result, err := DB.Query("SELECT id,status,list_order,name FROM role WHERE status = 1")
 	if err != nil {
 		return nil, fmt.Errorf(err.Error())
