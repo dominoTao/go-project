@@ -2,6 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
+	role "north-project/north-role-baseinfo"
 	userinfo "north-project/north-user-baseinfo"
 )
 
@@ -13,5 +14,10 @@ func init() {
 }
 func SetupRouters() *gin.Engine {
 	r.Handle("POST", "/login", userinfo.HandlerLogin)
+	r.Handle("GET", "/roleList", role.RoleList)
+	r.Handle("POST", "/roleAdd", role.RoleAdd)
 	return r
 }
+
+
+
