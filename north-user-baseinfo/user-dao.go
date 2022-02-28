@@ -45,8 +45,8 @@ func isExistUsername(DB *sql.DB, username string) bool {
 }
 
 func registryUser(DB *sql.DB, user *User) (int, error) {
-	exec, err := DB.Exec("INSERT INTO user (mobile, last_login_ip, user_login) VALUES (?,?,?)", user.Mobile,user.LastLoginIp,user.UserLogin)
-	//exec, err := DB.Exec("INSERT INTO user (mobile, last_login_ip, last_login_time, create_time, user_login, user_pass, user_status) VALUES (?,?,?,?,?,?,?)", user.Mobile,user.LastLoginIp, user.LastLoginTime,user.CreateTime,user.UserLogin,user.UserPass, user.UserStatus)
+	//exec, err := DB.Exec("INSERT INTO user (mobile, last_login_ip, user_login) VALUES (?,?,?)", user.Mobile,user.LastLoginIp,user.UserLogin)
+	exec, err := DB.Exec("INSERT INTO user (mobile, last_login_ip, last_login_time, create_time, user_login, user_pass, user_status) VALUES (?,?,?,?,?,?,?)", user.Mobile,user.LastLoginIp, user.LastLoginTime,user.CreateTime,user.UserLogin,user.UserPass, user.UserStatus)
 	if err != nil {
 		return 0, fmt.Errorf(err.Error())
 	}
