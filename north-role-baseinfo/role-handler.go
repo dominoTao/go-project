@@ -9,8 +9,8 @@ import (
 	option "north-project/north-common/sql-operation"
 )
 
-//获取绝色
-func RoleList(ctx *gin.Context) {
+//获取角色
+func HandlerRoles(ctx *gin.Context) {
 	//所有角色
 	roleList, err := SelectAllRole(option.DB)
 	if err != nil || roleList == nil {
@@ -22,7 +22,3 @@ func RoleList(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, baseview.GetView(roleList, ""))
 }
 
-//func RoleAdd(ctx *gin.Context)  {
-//	err := RoleAdd(option.DB)
-//
-//}

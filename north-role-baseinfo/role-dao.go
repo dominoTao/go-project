@@ -6,16 +6,6 @@ import (
 	"fmt"
 )
 
-type Role struct {
-	Id         int64  `json:"id,omitempty"`
-	Status     int    `json:"status,omitempty"`
-	CreateTime int    `json:"create_time,omitempty"`
-	UpdateTime int    `json:"update_time,omitempty"`
-	ListOrder  int8   `json:"list_order,omitempty"`
-	Name       string `json:"name,omitempty"`
-	Remark     string `json:"remark,omitempty"`
-}
-
 func SelectRoleById(DB *sql.DB, id int) (*Role, error) {
 	var pe Role
 	err := DB.QueryRow("SELECT id,status,list_order,name FROM role WHERE id = ?", id).Scan(&pe.Id, &pe.Status, &pe.ListOrder, &pe.Name)
