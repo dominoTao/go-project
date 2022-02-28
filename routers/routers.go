@@ -15,7 +15,7 @@ func init() {
 func SetupRouters() *gin.Engine {
 	r.Handle("POST", "/login", userinfo.HandlerLogin)
 	r.Handle("GET", "/roleList", role.RoleList)
-	r.Handle("POST", "/roleAdd", role.RoleAdd)
+	//r.Handle("POST", "/roleAdd", role.RoleAdd)
 	return r
 }
 
