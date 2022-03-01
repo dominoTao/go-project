@@ -22,3 +22,37 @@ func HandlerRoles(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, baseview.GetView(roleList, ""))
 }
 
+//角色添加
+func RoleAdd(ctx *gin.Context) {
+
+	// 绑定入参数据到map结构体
+	params := make(map[string]interface{})
+	_ = ctx.BindJSON(&params)
+
+	_, ok := params["status"]
+	if !ok {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "status 不能为空"))
+		return
+	}
+
+	_, ok = params["order"]
+	if !ok {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "order 不能为空"))
+		return
+	}
+	_, ok = params["name"]
+	if !ok {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "name 不能为空"))
+		return
+	}
+
+
+	id, err := RoleInsert(option.DB, int(params["status"].(float64)), int(params["order"].(float64)), params["name"].(string), params["remark"].(string))
+	if err != nil || id == 0 {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "添加失败"))
+		// 记录日志
+		log.Logger().WithFields(logrus.Fields{}).Info("添加失败")
+		return
+	}
+	ctx.JSON(http.StatusOK, baseview.GetView(id, ""))
+}

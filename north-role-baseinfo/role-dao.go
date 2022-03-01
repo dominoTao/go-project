@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
 )
 
 func selectRoleById(DB *sql.DB, id int) (*Role, error) {
@@ -35,6 +36,18 @@ func selectAllRole(DB *sql.DB) (*[]Role, error) {
 	return &roles, nil
 }
 
-//func RoleAdd(DB *sql.DB,status int,order int,name string)  {
-//	result
-//}
+//角色添加
+func RoleInsert(DB *sql.DB, status int, order int, name string, remark string) (int, error) {
+	now := time.Now()
+	r, err := DB.Exec("insert into role(status, create_time, update_time,list_order,name,remark) values (?, ?, ?, ?, ?, ?)", status, now.Unix(), now.Unix(), order, name, remark)
+	if err != nil {
+		fmt.Println("exec failed, ", err)
+		return 0, fmt.Errorf(err.Error())
+	}
+	id, err := r.LastInsertId()
+	if err != nil {
+		fmt.Println("exec failed, ", err)
+		return 0, fmt.Errorf(err.Error())
+	}
+	return int(id), nil
+}
