@@ -23,7 +23,7 @@ func HandlerRoles(ctx *gin.Context) {
 }
 
 //角色添加
-func RoleAdd(ctx *gin.Context) {
+func HaddlerRoleAdd(ctx *gin.Context) {
 
 	// 绑定入参数据到map结构体
 	params := make(map[string]interface{})
