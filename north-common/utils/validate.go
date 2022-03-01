@@ -12,7 +12,7 @@ import (
 func ValidateString(i string) bool {
 	return len(i) > 0
 }
-//TODO 待处理 不能用
+//TODO 待处理 不能用  nil->false;not nil->true
 func ValidateInterface(i interface{}) bool {
 	if i == nil {
 		return false

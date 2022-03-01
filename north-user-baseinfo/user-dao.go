@@ -25,7 +25,7 @@ func selectUserByUserName(DB *sql.DB, username string) (*User, error) {
 
 func selectUserByMobile(DB *sql.DB, mobile string) (*User, error) {
 	var pe User
-	err := DB.QueryRow("SELECT id,mobile,user_pass FROM user WHERE user_login =  ?", mobile).Scan(&pe.Id, &pe.Mobile, &pe.UserPass)
+	err := DB.QueryRow("SELECT id,mobile,user_pass FROM user WHERE mobile = ?", mobile).Scan(&pe.Id, &pe.Mobile, &pe.UserPass)
 	if err != nil {
 		return nil, fmt.Errorf(err.Error())
 	}
