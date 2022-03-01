@@ -16,6 +16,7 @@ func SetupRouters() *gin.Engine {
 	r.Handle("POST", "/login", user.HandlerLogin)
 	r.Handle("POST", "/role", role.HandlerRoles)
 	r.Handle("POST", "/registry", user.HandlerRegistry)
+	r.Handle("POST", "/roleAdd", role.RoleAdd)
 	return r
 }
 
