@@ -1,7 +1,12 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/modern-go/reflect2"
+	"math/rand"
+	"strconv"
+	"sync"
+	"time"
 )
 
 func ValidateString(i string) bool {
@@ -14,4 +19,18 @@ func ValidateInterface(i interface{}) bool {
 	}
 	//reflect.DeepEqual()
 	return !reflect2.IsNil(i)
+}
+
+// GetSMS 获取短信验证码
+func GetSMS() string {
+	var mu sync.Mutex
+	mu.Lock()
+	rand.Seed(time.Now().UnixNano())
+	i := rand.Intn(1000000)
+	msg := strconv.Itoa(i)
+	if len(msg) < 6 {
+		msg = fmt.Sprintf("%s%s", "0", msg)
+	}
+	mu.Unlock()
+	return msg
 }

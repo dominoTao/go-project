@@ -13,9 +13,15 @@ func init() {
 	_ = r.SetTrustedProxies([]string{"127.0.0.1", "localhost"})
 }
 func SetupRouters() *gin.Engine {
-	r.Handle("POST", "/login", user.HandlerLogin)
-	r.Handle("POST", "/role", role.HandlerRoles)
+	// user package
+	r.Handle("POST", "/login", user.HandlerLoginVerification)
+	r.Handle("POST", "/loginP", user.HandlerLoginPassword)
 	r.Handle("POST", "/registry", user.HandlerRegistry)
+	// 获取验证码
+	r.Handle("POST", "/verCode", user.HandlerVerification)
+
+	// role package
+	r.Handle("POST", "/role", role.HandlerRoles)
 	r.Handle("POST", "/roleAdd", role.HaddlerRoleAdd)
 	return r
 }
