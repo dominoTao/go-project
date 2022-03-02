@@ -7,6 +7,7 @@ import (
 	"north-project/north-common/baseview"
 	"north-project/north-common/log"
 	option "north-project/north-common/sql-operation"
+	"time"
 )
 
 //获取角色
@@ -55,4 +56,19 @@ func HaddlerRoleAdd(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, baseview.GetView(id, ""))
+}
+
+
+//git
+func Test(ctx *gin.Context)  {
+	now := time.Now()
+	scoreMap := make(map[string]interface{}, 8)
+	scoreMap["status"] = 1
+	scoreMap["create_time"] = now.Unix()
+	scoreMap["update_time"] = now.Unix()
+	scoreMap["list_order"] = 1
+	scoreMap["name"] = "管理员"
+	scoreMap["remark"] = "这是一个角色"
+	sql  := InsertSql("role",scoreMap)
+	ctx.JSON(http.StatusOK, baseview.GetView(sql, ""))
 }

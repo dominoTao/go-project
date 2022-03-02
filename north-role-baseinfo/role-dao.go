@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -50,4 +51,17 @@ func RoleInsert(DB *sql.DB, status int, order int, name string, remark string) (
 		return 0, fmt.Errorf(err.Error())
 	}
 	return int(id), nil
+}
+
+func InsertSql(tableName string, s1 map[string]interface{}) string {
+	columns := ""
+	values := ""
+	for k, v := range s1 {
+		columns = columns + "`" + k + "`,"
+		values = values + "'" + v.(string) + "',"
+	}
+	columns = strings.TrimRight(columns, ",")
+	values = strings.TrimRight(values, ",")
+	sql := "INSERT INTO `" + tableName + "` " + "(" + columns + ") VALUES (" + values + ")"
+	return sql
 }
