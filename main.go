@@ -13,7 +13,7 @@ func main() {
 	router.Use(log.LoggerToFile())
 	// 连接redis
 	cache.InitRedis()
-	if err := router.Run(":8070"); err != nil {
+	if err := router.Run(":8080"); err != nil {
 		fmt.Errorf("failed start routers")
 		return
 	}
