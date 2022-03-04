@@ -53,6 +53,12 @@ func RoleInsert(DB *sql.DB, status int, order int, name string, remark string) (
 	return int(id), nil
 }
 
+
+
+
+
+
+
 func InsertSql(tableName string, s1 map[string]interface{}) string {
 	columns := ""
 	values := ""
