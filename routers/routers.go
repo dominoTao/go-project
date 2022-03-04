@@ -18,10 +18,6 @@ func SetupRouters() *gin.Engine {
 	// user package
 	r.Handle("POST", "/login", user.HandlerLoginVerification)
 	r.Handle("POST", "/loginP", user.HandlerLoginPassword)
-
-	//r.Handle("POST", "/login", user.HandlerLogin)
-	//r.Handle("GET", "/role", role.HandlerRoles)
-
 	r.Handle("POST", "/registry", user.HandlerRegistry)
 	// 获取验证码
 	r.Handle("POST", "/verCode", user.HandlerVerification)
@@ -31,6 +27,8 @@ func SetupRouters() *gin.Engine {
 	r.Handle("POST", "/roleAdd", role.HaddlerRoleAdd)
 	//r.Handle("POST", "/roleDelete", role.HaddlerRoleDelete) //角色删除
 	r.Handle("GET", "/test",role.Test)
+
+	//菜单接口
 	r.Handle("GET", "/adminMenuList",adminMenu.HandlerAdminMenuList)
 	return r
 }
