@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"north-project/north-common/baseview"
 )
 
 var Jsondata []byte
@@ -34,9 +35,9 @@ func HandlerAdminMenuList(ctx *gin.Context) {
 	}
 
 	if err != nil {
-		ctx.JSON(http.StatusOK, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusOK, baseview.GetView(nil,err.Error() ))
 	} else {
-		ctx.JSON(http.StatusOK, list)
+		ctx.JSON(http.StatusOK, baseview.GetView(list, ""))
 	}
 }
 
