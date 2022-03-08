@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	sql_operation "north-project/north-common/sql-operation"
 	"strings"
 	"time"
 )
@@ -54,6 +55,11 @@ func RoleInsert(DB *sql.DB, status int, order int, name string, remark string) (
 }
 
 
+//
+func RoleDel(id string)  (err error){
+	err = sql_operation.GDB.Where("id = ?", id).Delete(&Role{}).Error
+	return
+}
 
 
 

@@ -1,7 +1,6 @@
 package north_role_baseinfo
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -59,44 +58,23 @@ func HaddlerRoleAdd(ctx *gin.Context) {
 }
 
 //角色删除
-//func HaddlerRoleDelete(ctx *gin.Context)  {
-//	params := make(map[string]interface{})
-//	_ = ctx.BindJSON(&params)
-//	_, ok := params["id"]
-//	if !ok {
-//		ctx.JSON(http.StatusOK, baseview.GetView(nil, "id 不能为空"))
-//		return
-//	}
-//	id, err := RoleDelete(option.GDB,int(params["id"].(float64)))
-//	if err != nil || id == 0 {
-//		ctx.JSON(http.StatusOK, baseview.GetView(nil, "删除失败"))
-//		// 记录日志
-//		log.Logger().WithFields(logrus.Fields{}).Info("删除失败")
-//		return
-//	}
-//	ctx.JSON(http.StatusOK, baseview.GetView(id, ""))
-//
-//}
+func HaddlerRoleDelete(ctx *gin.Context)  {
 
+	params := make(map[string]interface{})
+	_ = ctx.BindJSON(&params)
 
-//git
-func Test(ctx *gin.Context)  {
+	_, ok := params["id"]
+	if !ok {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "id 不能为空"))
+		return
+	}
 
-	s := "123123"
-	var v = []byte(s)
-
-	bytes := v[:len(s)-1]
-	fmt.Println(bytes)
-
-
-	//now := time.Now()
-	//	scoreMap := make(map[string]interface{}, 8)
-	//scoreMap["status"] = 1
-	//scoreMap["create_time"] = now.Unix()
-	//scoreMap["update_time"] = now.Unix()
-	//scoreMap["list_order"] = 1
-	//scoreMap["name"] = "管理员"
-	//scoreMap["remark"] = "这是一个角色"
-	//sql  := InsertSql("role",scoreMap)
-	//ctx.JSON(http.StatusOK, baseview.GetView(sql, ""))
+	err := RoleDel(params["id"].(string))
+	if err != nil  {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "删除失败"))
+		// 记录日志
+		log.Logger().WithFields(logrus.Fields{}).Info("删除失败")
+		return
+	}
+	ctx.JSON(http.StatusOK, baseview.GetView(1, ""))
 }
