@@ -69,7 +69,13 @@ func HaddlerRoleDelete(ctx *gin.Context)  {
 		return
 	}
 
-	err := RoleDel(params["id"].(string))
+	role,_ := getById(int(int64(params["id"].(float64))))
+	if role == nil{
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "未查询到该角色"))
+		return
+	}
+
+	err := RoleDel(int(int64(params["id"].(float64))))
 	if err != nil  {
 		ctx.JSON(http.StatusOK, baseview.GetView(nil, "删除失败"))
 		// 记录日志
