@@ -54,16 +54,23 @@ func RoleInsert(DB *sql.DB, status int, order int, name string, remark string) (
 	return int(id), nil
 }
 
-
-//
-func RoleDel(id string)  (err error){
+//根据主键删除
+func RoleDel(id int) (err error) {
 	err = sql_operation.GDB.Where("id = ?", id).Delete(&Role{}).Error
+	if err != nil {
+		fmt.Println("exec failed, ", err)
+		return fmt.Errorf(err.Error())
+	}
 	return
 }
 
-
-
-
+//根据主键获取角色信息
+func getById(id int) (roleInfo []*Role,  err error) {
+	if err := sql_operation.GDB.Where("id = ?", id).First(&Role{}).Error; err != nil {
+		return nil, err
+	}
+	return
+}
 
 func InsertSql(tableName string, s1 map[string]interface{}) string {
 	columns := ""

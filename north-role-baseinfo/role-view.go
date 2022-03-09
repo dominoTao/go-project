@@ -12,3 +12,9 @@ type Role struct {
 	Name       string `json:"name,omitempty" binding:"required"`
 	Remark     string `json:"remark,omitempty"`
 }
+
+
+//防止表加s
+func (Role) TableName() string {
+	return "role"
+}
