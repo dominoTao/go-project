@@ -25,10 +25,15 @@ func SetupRouters() *gin.Engine {
 	// role package
 	r.Handle("GET", "/role", role.HandlerRoles)
 	r.Handle("POST", "/roleAdd", role.HaddlerRoleAdd)
-	r.Handle("POST", "/roleDelete", role.HaddlerRoleDelete) //角色删除
+	r.Handle("POST", "/roleDel", role.HaddlerRoleDelete) //角色删除
+	r.Handle("POST", "/roleEdit", role.HaddlerRoleEdit) //角色编辑
 
 	//菜单接口
 	r.Handle("GET", "/adminMenuList",adminMenu.HandlerAdminMenuList)
+	r.Handle("POST", "/adminMenuAdd",adminMenu.HandlerAdminMenuAdd)
+
+
+	//测试接口
 	return r
 }
 

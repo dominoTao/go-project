@@ -46,7 +46,6 @@ func HaddlerRoleAdd(ctx *gin.Context) {
 		return
 	}
 
-
 	id, err := RoleInsert(option.DB, int(params["status"].(float64)), int(params["order"].(float64)), params["name"].(string), params["remark"].(string))
 	if err != nil || id == 0 {
 		ctx.JSON(http.StatusOK, baseview.GetView(nil, "添加失败"))
@@ -58,7 +57,7 @@ func HaddlerRoleAdd(ctx *gin.Context) {
 }
 
 //角色删除
-func HaddlerRoleDelete(ctx *gin.Context)  {
+func HaddlerRoleDelete(ctx *gin.Context) {
 
 	params := make(map[string]interface{})
 	_ = ctx.BindJSON(&params)
@@ -69,18 +68,51 @@ func HaddlerRoleDelete(ctx *gin.Context)  {
 		return
 	}
 
-	role,_ := getById(int(int64(params["id"].(float64))))
-	if role == nil{
-		ctx.JSON(http.StatusOK, baseview.GetView(nil, "未查询到该角色"))
-		return
+	role, _ := getById(int(int64(params["id"].(float64))))
+	if role == nil {
+		//ctx.JSON(http.StatusOK, baseview.GetView(nil, "未查询到该角色"))
+		//return
 	}
 
 	err := RoleDel(int(int64(params["id"].(float64))))
-	if err != nil  {
+	if err != nil {
 		ctx.JSON(http.StatusOK, baseview.GetView(nil, "删除失败"))
 		// 记录日志
 		log.Logger().WithFields(logrus.Fields{}).Info("删除失败")
 		return
 	}
 	ctx.JSON(http.StatusOK, baseview.GetView(1, ""))
+}
+
+//角色编辑
+func HaddlerRoleEdit(ctx *gin.Context) {
+
+	var role_edit RoleEdit
+	if err := ctx.BindJSON(&role_edit); err != nil {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
+		return
+	}
+
+	//获取信息
+	info, err := getById(int(role_edit.Id))
+	if err != nil || len(info) == 0 {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
+		return
+	}
+
+	if info == nil {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "角色信息不存在"))
+		return
+	}
+
+	//更新数据
+	role := RoleEdit{Name: role_edit.Name}
+	err = updateData(int(role_edit.Id), role)
+	if err != nil {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, baseview.GetView("", "更新成功"))
+
 }
