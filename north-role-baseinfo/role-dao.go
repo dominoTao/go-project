@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	sql_operation "north-project/north-common/sql-operation"
-	"strings"
 	"time"
 )
 
@@ -66,21 +65,17 @@ func RoleDel(id int) (err error) {
 
 //根据主键获取角色信息
 func getById(id int) (roleInfo []*Role,  err error) {
-	if err := sql_operation.GDB.Where("id = ?", id).First(&Role{}).Error; err != nil {
+	if err := sql_operation.GDB.Where("id = ?", id).Find(&Role{}).Error; err != nil {
 		return nil, err
 	}
-	return
+	return roleInfo,nil
 }
 
-func InsertSql(tableName string, s1 map[string]interface{}) string {
-	columns := ""
-	values := ""
-	for k, v := range s1 {
-		columns = columns + "`" + k + "`,"
-		values = values + "'" + v.(string) + "',"
+
+//根据id 更新数据
+func updateData(id int,roleEdit RoleEdit) (err error) {
+	if err := sql_operation.GDB.Where(" id = ?  AND status = ? ", id, 1).Find(&roleEdit).Error; err != nil {
+		return  err
 	}
-	columns = strings.TrimRight(columns, ",")
-	values = strings.TrimRight(values, ",")
-	sql := "INSERT INTO `" + tableName + "` " + "(" + columns + ") VALUES (" + values + ")"
-	return sql
+	return
 }

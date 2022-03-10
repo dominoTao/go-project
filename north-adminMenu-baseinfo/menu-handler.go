@@ -9,6 +9,40 @@ import (
 
 var Jsondata []byte
 
+//新增菜单
+func HandlerAdminMenuAdd(ctx *gin.Context)  {
+	var admin_menu_add AdminMenuAdd
+	if err := ctx.BindJSON(&admin_menu_add);err != nil{
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
+		return
+	}
+
+	info, err :=getById(admin_menu_add.ParentId)
+	if err != nil || len(info) == 0{
+		ctx.JSON(http.StatusOK, baseview.GetView(nil,err.Error() ))
+	}
+
+	if info == nil{
+		ctx.JSON(http.StatusOK, baseview.GetView(nil,"父菜单不存在" ))
+	}
+	
+
+
+
+	//参数绑定
+	addmenu := AdminMenuAdd{ParentId: admin_menu_add.ParentId, Action:admin_menu_add.Action,ListOrder: admin_menu_add.ListOrder,Name: admin_menu_add.Name,Remark: admin_menu_add.Remark}
+	insert, err := menuInsert(addmenu)
+	if err != nil {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "插入失败"))
+		return
+	}
+	ctx.JSON(http.StatusOK, baseview.GetView(insert, ""))
+}
+
+
+
+
+
 //菜单列表
 func HandlerAdminMenuList(ctx *gin.Context) {
 
@@ -40,6 +74,15 @@ func HandlerAdminMenuList(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, baseview.GetView(list, ""))
 	}
 }
+
+
+
+
+
+
+
+
+
 
 func makeTree(Allnode []*AdminMenu, node *AdminMenu) { //参数为父节点，添加父节点的子节点指针切片
 	childs, _ := haveChild(Allnode, node) //判断节点是否有子节点并返回
