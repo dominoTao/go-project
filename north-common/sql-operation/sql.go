@@ -29,7 +29,7 @@ func InitDB() (*sql.DB, error) {
 	if err := DB.Ping(); err != nil {
 		return nil, fmt.Errorf("open database fail")
 	}
-	fmt.Println("connect database success")
+	//fmt.Println("connect database success")
 	return DB, nil
 }
 
