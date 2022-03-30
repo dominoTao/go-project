@@ -13,7 +13,7 @@ type AdminMenu struct {
 	Child     []*AdminMenu `json:"child,omitempty"`
 }
 
-//防止表加s
+//防止表加s 123
 func (AdminMenu) TableName() string {
 	return "admin_menu"
 }
