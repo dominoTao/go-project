@@ -66,9 +66,13 @@ func RoleDel(id int) (err error) {
 
 //根据主键获取角色信息
 func getById(id int) (roleInfo []*Role, err error) {
-	if err := sql_operation.GDB.Where("id = ?", id).First(&Role{}).Error; err != nil {
+	if err := sql_operation.GDB.Where("id = ?", id).Find(&Role{}).Error; err != nil {
 		return nil, err
 	}
+	return roleInfo, nil
+}
+
+func updateData(id int, role []*Role) {
 	return
 }
 

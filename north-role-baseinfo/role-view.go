@@ -17,3 +17,16 @@ type Role struct {
 func (Role) TableName() string {
 	return "role"
 }
+
+type RoleEdit struct {
+	Id         int64  `json:"id" binding:"required"`
+	Status     int    `json:"status" binding:"required"`
+	UpdateTime int    `json:"update_time" `
+	ListOrder  int8   `json:"list_order"`
+	Name       string `json:"name,omitempty" binding:"required"`
+	Remark     string `json:"remark,omitempty"`
+}
+
+func (RoleEdit) TableName() string {
+	return "role"
+}

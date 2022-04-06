@@ -10,7 +10,7 @@ type AdminMenu struct {
 	Name      string       `json:"name,omitempty"`
 	Icon      string       `json:"icon,omitempty"`
 	Remark    string       `json:"remark,omitempty"`
-	Child     []*AdminMenu `json:"child,omitempty"`
+	Child     []*AdminMenu `json:"child"`
 }
 
 //防止表加s

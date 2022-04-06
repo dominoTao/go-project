@@ -106,13 +106,15 @@ func HaddlerRoleEdit(ctx *gin.Context) {
 	}
 
 	//更新数据
-	role := RoleEdit{Name: role_edit.Name}
-	err = updateData(int(role_edit.Id), role)
-	if err != nil {
-		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
-		return
-	}
+	//role := RoleEdit{Name: role_edit.Name}
+	//err = updateData(int(role_edit.Id), role)
+	//if err != nil {
+	//	ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
+	//	return
+	//}
 
 	ctx.JSON(http.StatusOK, baseview.GetView("", "更新成功"))
 
 }
+
+//test2
