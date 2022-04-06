@@ -2,7 +2,7 @@ package north_role_baseinfo
 
 /**
 角色表映射结构体
- */
+*/
 type Role struct {
 	Id         int64  `json:"id,omitempty"`
 	Status     int    `json:"status,omitempty"`
