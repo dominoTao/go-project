@@ -70,8 +70,8 @@ func HaddlerRoleDelete(ctx *gin.Context) {
 
 	role, _ := getById(int(int64(params["id"].(float64))))
 	if role == nil {
-		//ctx.JSON(http.StatusOK, baseview.GetView(nil, "未查询到该角色"))
-		//return
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "未查询到该角色"))
+		return
 	}
 
 	err := RoleDel(int(int64(params["id"].(float64))))
@@ -93,8 +93,8 @@ func HaddlerRoleEdit(ctx *gin.Context) {
 		return
 	}
 
-	//获取信息
-	info, err := getById(int(role_edit.Id))
+	//获取信息x
+	info, err := getById(1)
 	if err != nil || len(info) == 0 {
 		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
 		return

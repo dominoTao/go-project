@@ -22,7 +22,7 @@ func main() {
 	}
 	defer sql_operation.Close() //程序退出关闭数据库连接 defer 关键字 表示程序运行结束之后调用的方法
 
-	if err := router.Run(":8070"); err != nil {
+	if err := router.Run(":8080"); err != nil {
 		fmt.Errorf("failed start routers")
 		return
 	}
