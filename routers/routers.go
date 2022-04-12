@@ -23,9 +23,10 @@ func SetupRouters() *gin.Engine {
 	r.Handle("POST", "/verCode", user.HandlerVerification)
 
 	// role package
-	r.Handle("GET", "/role", role.HandlerRoles)
-	r.Handle("POST", "/roleAdd", role.HaddlerRoleAdd)
+	r.Handle("GET", "/role", role.HandlerRoles)             //角色列表
+	r.Handle("POST", "/roleAdd", role.HaddlerRoleAdd)       //角色添加
 	r.Handle("POST", "/roleDelete", role.HaddlerRoleDelete) //角色删除
+	r.Handle("POST", "/roleEdit", role.HandleRoleEdit)      //角色编辑
 
 	//菜单接口
 	r.Handle("GET", "/adminMenuList", adminMenu.HandlerAdminMenuList)
