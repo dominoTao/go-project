@@ -85,33 +85,47 @@ func HaddlerRoleDelete(ctx *gin.Context) {
 }
 
 //角色编辑
-func HaddlerRoleEdit(ctx *gin.Context) {
+func HandleRoleEdit(ctx *gin.Context) {
 
-	var role_edit RoleEdit
-	if err := ctx.BindJSON(&role_edit); err != nil {
-		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
+	params := make(map[string]interface{})
+	_ = ctx.BindJSON(&params)
+
+	_, ok := params["id"]
+	if !ok {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, "id 不能为空"))
 		return
 	}
 
 	//获取信息x
-	info, err := getById(1)
-	if err != nil || len(info) == 0 {
+	info, err := getById(23)
+	if err != nil {
 		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
 		return
 	}
-
 	if info == nil {
 		ctx.JSON(http.StatusOK, baseview.GetView(nil, "角色信息不存在"))
 		return
 	}
 
+	//Id         int64  `json:"id" binding:"required"`
+	//Status     int    `json:"status" binding:"required"`
+	//UpdateTime int    `json:"update_time" `
+	//ListOrder  int8   `json:"list_order"`
+	//Name       string `json:"name,omitempty" binding:"required"`
+	//Remark     string `json:"remark,omitempty"`
+
 	//更新数据
-	//role := RoleEdit{Name: role_edit.Name}
-	//err = updateData(int(role_edit.Id), role)
-	//if err != nil {
-	//	ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
-	//	return
+	//user := &RoleEdit{
+	//	Id: params["id"]
+	//	Status: 23
+	//	UpdateTime: time.Now(),
+	//
 	//}
+	//err = updateData(user)
+	if err != nil {
+		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
+		return
+	}
 
 	ctx.JSON(http.StatusOK, baseview.GetView("", "更新成功"))
 
