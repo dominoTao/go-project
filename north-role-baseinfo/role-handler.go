@@ -7,6 +7,7 @@ import (
 	"north-project/north-common/baseview"
 	"north-project/north-common/log"
 	option "north-project/north-common/sql-operation"
+	"time"
 )
 
 //获取角色列表
@@ -106,22 +107,16 @@ func HandleRoleEdit(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, baseview.GetView(nil, "角色信息不存在"))
 		return
 	}
-
-	//Id         int64  `json:"id" binding:"required"`
-	//Status     int    `json:"status" binding:"required"`
-	//UpdateTime int    `json:"update_time" `
-	//ListOrder  int8   `json:"list_order"`
-	//Name       string `json:"name,omitempty" binding:"required"`
-	//Remark     string `json:"remark,omitempty"`
+	nowTime := time.Now().Unix()
 
 	//更新数据
-	//user := &RoleEdit{
-	//	Id: params["id"]
-	//	Status: 23
-	//	UpdateTime: time.Now(),
-	//
-	//}
-	//err = updateData(user)
+	user := &RoleEdit{
+		Status:     int(params["id"].(float64)),
+		UpdateTime: int(nowTime),
+		Name:       params["name"].(string),
+		Remark:     params["remark"].(string),
+	}
+	_, err = updateData(int(params["id"].(float64)), user)
 	if err != nil {
 		ctx.JSON(http.StatusOK, baseview.GetView(nil, err.Error()))
 		return

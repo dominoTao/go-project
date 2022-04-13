@@ -72,8 +72,15 @@ func getById(id int) (roleInfo []*Role, err error) {
 	return roleInfo, nil
 }
 
-func updateData(id int, role []*Role) {
-	return
+//更新数据
+func updateData(id int, data *RoleEdit) (roleInfo []*Role, err error) {
+
+	//db.Model(&user).Where("active = ?", true).Update("name", "hello")
+
+	if err := sql_operation.GDB.Model(&roleInfo).Where("id = ?", id).Update(data).Error; err != nil {
+		return nil, err
+	}
+	return roleInfo, nil
 }
 
 func InsertSql(tableName string, s1 map[string]interface{}) string {
